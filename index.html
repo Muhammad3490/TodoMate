@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To do mate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="shortcut icon" href="android-chrome-512x512.png" type="image/x-icon">
+    <meta name="description" content="Organize your tasks efficiently with ToDo Mate, the ultimate to-do list application. Prioritize, manage, and accomplish your daily goals seamlessly. Stay organized and boost productivity with Todo Mate today">
+  </head>
+  <style>
+   /* CSS for white text color in dark mode */
+body.bg-dark.text-dark h2,
+body.bg-dark.text-dark h1,
+body.bg-dark.text-dark p,
+body.bg-dark.text-dark a,
+body.bg-dark.text-dark div{
+    color: #fff; /* Change to your desired text color */
+}
+.custom-text-size{
+    font-size: 22px;
+
+}
+
+
+  </style>
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="ideogram__6_-removebg-preview.png" alt="" width="100" height="95">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item custom-text-size">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                    </ul>
+                    <!-- Dark Mode Button -->
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="darkModeSwitch" >
+                        <label class="form-check-label text-light"  for="darkModeSwitch">Dark Mode</label>
+                    </div>
+                    <a href="https://muhammad3490.github.io/clock-js/"><button class="btn btn-primary mx-2" type="submit">Clock App <i class="fa-regular fa-clock"></i></button></a>
+                    <!-- Author Button -->
+                    <a href="https://muhammad3490.github.io/web-dev/"><button class="btn btn-outline-success mx-2" type="submit">Author <i class="fa-regular fa-keyboard "></i></button></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+   <!-- main .......................... -->
+   <main>
+    <div class="container text-center my-4"><h1>Todo Mate <i class="fa-regular fa-clipboard"></i></h1>
+    <!-- creating a form  -->
+    
+        <div class="mb-3">
+          <label for="title" class="form-label"> Title</label>
+          <input type="email" class="form-control" id="title" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">Add an item to the list.</div>
+        </div>
+       
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Add a description." id="description" style="height: 100px"></textarea>
+            <label for="description">Add a description here.</label>
+          </div>
+        
+        <button type="submit" id="Add" class="btn btn-primary my-4">Add to list</button>
+        <button type="submit" id="clear" class="btn btn-primary my-4" onclick="clearStorage()">Clear list</button>
+      
+      <div id="items" class="my-4"><h2>Your items</h2></div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr no.</th>
+            <th scope="col">Item title</th>
+            <th scope="col">Item description</th>
+            <th scope="col">Actions</th>
+            
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <th scope="row">1</th>
+            <td>coffee</td>
+            <td>I need coffee every day</td>
+            <td><button class="btn btn-primary btn-sm">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <footer>
+        
+
+          <footer class="bg-dark text-white text-center py-3 bottom">
+            <div class="container">
+                <p>&copy; 2023 Todo Mate.</p>
+                <p>Hand crafted by <a href="https://muhammad3490.github.io/web-dev/">Muhammad.</a></p>
+                <p>Made with love using Bootstrap <i class="fa-brands fa-bootstrap"></i></p>
+                </div>
+        </footer>
+    </footer>
+
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script>
+         function getAndUpdate(){
+                console.log("Updating List...");
+                tit = document.getElementById('title').value;
+                desc = document.getElementById('description').value;
+                if (localStorage.getItem('itemsJson')==null){
+                    itemJsonArray = [];
+                    itemJsonArray.push([tit, desc]);
+                    localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+                }
+                else{
+                    itemJsonArrayStr = localStorage.getItem('itemsJson')
+                    itemJsonArray = JSON.parse(itemJsonArrayStr);
+                    itemJsonArray.push([tit, desc]);
+                    localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+                }
+                update();
+            }
+
+            function update(){
+                if (localStorage.getItem('itemsJson')==null){
+                    itemJsonArray = []; 
+                    localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray))
+                } 
+                else{
+                    itemJsonArrayStr = localStorage.getItem('itemsJson')
+                    itemJsonArray = JSON.parse(itemJsonArrayStr); 
+                }
+                // Populate the table
+                let tableBody = document.getElementById("tableBody");
+                let str = "";
+                itemJsonArray.forEach((element, index) => {
+                    str += `
+                    <tr>
+                    <th scope="row">${index + 1}</th>
+                    <td>${element[0]}</td>
+                    <td>${element[1]}</td> 
+                    <td><button class="btn btn-sm btn-primary" onclick="deleted(${index})">Delete</button></td> 
+                    </tr>`; 
+                });
+                tableBody.innerHTML = str;
+            }
+            add = document.getElementById("Add");
+            add.addEventListener("click", getAndUpdate);
+            update();
+            function deleted(itemIndex){
+                console.log("Delete", itemIndex);
+                itemJsonArrayStr = localStorage.getItem('itemsJson')
+                itemJsonArray = JSON.parse(itemJsonArrayStr);
+                // Delete itemIndex element from the array
+                itemJsonArray.splice(itemIndex, 1);
+                localStorage.setItem('itemsJson', JSON.stringify(itemJsonArray));
+                update();
+
+            }
+            function clearStorage(){
+                if (confirm("Do you areally want to clear?")){
+                console.log('Clearing the storage')
+                localStorage.clear();
+                update()
+                }
+            }
+
+            // <!-- Custom JavaScript for Dark Mode -->
+
+    // Function to toggle dark mode
+    // <!-- Custom JavaScript for Dark Mode -->
+
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+        const currentTheme = document.body.classList.contains('bg-dark') ? 'dark' : 'light';
+        document.body.classList.toggle('bg-dark');
+        document.body.classList.toggle('bg-light');
+        document.body.classList.toggle('text-dark'); // Add or remove class for text color
+        const isDarkMode = currentTheme === 'dark';
+        localStorage.setItem('darkMode', isDarkMode);
+    }
+
+    // Get the dark mode switch element
+    const darkModeSwitch = document.getElementById('darkModeSwitch');
+
+    // Check local storage for the dark mode setting
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    // Set the initial state of the dark mode switch
+    darkModeSwitch.checked = isDarkMode;
+
+    // Add event listener to the dark mode switch
+    darkModeSwitch.addEventListener('change', toggleDarkMode);
+
+    // Toggle dark mode on page load based on the initial state
+    
+
+
+
+
+         
+    </script>
+  </body>
+</html>
